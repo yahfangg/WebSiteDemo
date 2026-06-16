@@ -1,0 +1,83 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #0f0f14;
+    color: #e8e8e8;
+    margin: 0;
+    padding: 20px;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+}
+
+.card {
+    background: #1b1b24;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+}
+
+button {
+    background: #2e7dff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    margin: 5px;
+}
+
+button:hover {
+    background: #1f5ed1;
+}
+
+input {
+    padding: 8px;
+    border-radius: 6px;
+    border: none;
+    margin-top: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.stat {
+    background: #111118;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.stat input {
+    margin-top: 5px;
+    text-align: center;
+}
+
+.output {
+    background: #111118;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+    min-height: 30px;
+}
+
+.dice-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.small {
+    font-size: 12px;
+    opacity: 0.8;
+}
