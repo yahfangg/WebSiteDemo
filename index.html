@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>P-lingMovies — TMDb + VidSrc Demo</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bitcount+Grid+Double:wght@100..900&family=Nabla&display=swap" rel="stylesheet">
+
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>  
+
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  
+</head>
+<body class="animate__animated animate__fadeIn">
+
+  <header class="animate__animated animate__fadeInDown animate__faster">
+    <div class="logo">P-lingMovies</div>
+    <div class="search">
+      <input id="q" type="search" placeholder="Search movies and TV shows (e.g. The Matrix, Breaking Bad)" />
+      <button id="searchBtn" class="btn">Search</button>
+    </div>
+  </header>
+
+  <main class="animate__animated animate__fadeIn animate__delay-1s">
+    <div id="resultsInfo" style="margin-bottom:12px;color:var(--muted)"></div>
+    <div id="grid" class="grid"></div>
+  </main>
+
+  <!-- Modal -->
+  <div id="playerModal" class="modal" aria-hidden="true">
+    <div class="sheet animate__animated animate__zoomIn animate__faster" role="dialog" aria-modal="true">
+
+      <div class="left animate__animated animate__fadeIn">
+        <button id="closeBtn" class="close">Close ✕</button>
+
+        <iframe id="playerIframe" class="player-iframe" src="" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>
+      </div>
+
+      <div class="right animate__animated animate__fadeInRight">
+        <div id="detailTitle" class="meta-h"></div>
+        <div id="detailTagline" class="muted"></div>
+
+        <div id="detailOverview" style="margin-bottom:14px;color:var(--muted)"></div>
+
+        <!-- TV Controls -->
+        <div id="tvControls" style="display:none;">
+          <label style="font-size:13px;color:var(--muted);margin-bottom:6px">Season</label>
+          <select id="seasonSelect"></select>
+
+          <label style="font-size:13px;color:var(--muted);margin-bottom:6px">Episode</label>
+          <select id="episodeSelect"></select>
+
+          <button id="playEpisodeBtn" class="play-now" style="margin-top:8px">Play Episode</button>
+        </div>
+
+        <!-- Movie Controls -->
+        <div id="movieControls" style="display:none;">
+          <button id="playMovieBtn" class="play-now">Play Movie</button>
+        </div>
+
+        <div id="extraMeta" style="margin-top:12px;color:var(--muted);font-size:13px"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="animate__animated animate__fadeIn animate__delay-2s">
+    Demo uses TMDb for metadata and VidSrc embed player for playback. Replace the TMDb API key in code before use.
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
