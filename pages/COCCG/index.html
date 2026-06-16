@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Call of Cthulhu Character & Dice Generator</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #0f0f14;
+    color: #e8e8e8;
+    margin: 0;
+    padding: 20px;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+}
+
+.card {
+    background: #1b1b24;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+}
+
+button {
+    background: #2e7dff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    margin: 5px;
+}
+
+button:hover {
+    background: #1f5ed1;
+}
+
+input {
+    padding: 8px;
+    border-radius: 6px;
+    border: none;
+    margin-top: 5px;
+    width: 100%;
+}
+
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.stat {
+    background: #111118;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.output {
+    background: #111118;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+    min-height: 30px;
+}
+
+.dice-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Call of Cthulhu Character Creator</h1>
+
+<div class="card">
+<h2>Character Generator</h2>
+
+<label>Name</label>
+<input id="nameInput" placeholder="Investigator Name">
+
+<label>Occupation</label>
+<input id="jobInput" placeholder="Occupation">
+
+<button onclick="generateCharacter()">Auto Roll Character</button>
+
+<div id="characterOutput" class="output"></div>
+<div id="stats" class="stat-grid"></div>
+
+</div>
+
+<div class="card">
+<h2>Dice Roller</h2>
+
+<div id="diceOutput" class="output"></div>
+
+<h3>Quick Dice</h3>
+<div class="dice-buttons">
+<button onclick="quickRoll(4)">d4</button>
+<button onclick="quickRoll(6)">d6</button>
+<button onclick="quickRoll(8)">d8</button>
+<button onclick="quickRoll(10)">d10</button>
+<button onclick="quickRoll(12)">d12</button>
+<button onclick="quickRoll(20)">d20</button>
+<button onclick="quickRoll(100)">d100</button>
+</div>
+
+<h3>Common Rolls</h3>
+<div class="dice-buttons">
+<button onclick="rollFormula('2d6')">2d6</button>
+<button onclick="rollFormula('3d6')">3d6</button>
+<button onclick="rollAdvantage()">Advantage (2d20 High)</button>
+<button onclick="rollDisadvantage()">Disadvantage (2d20 Low)</button>
+</div>
+
+<h3>Custom Formula</h3>
+<input id="diceInput" placeholder="Example: 2d6+3">
+<button onclick="rollDice()">Roll Custom</button>
+
+
+</div>
+
+</div>
+
+<script>
+
+// ---------- Dice Core ----------
+function roll(formula) {
+    formula = formula.toLowerCase().replace(/\s/g, "");
+    let match = formula.match(/(\d*)d(\d+)([+-]\d+)?/);
+
+    if (!match) return "Invalid dice formula";
+
+    let count = parseInt(match[1] || "1");
+    let sides = parseInt(match[2]);
+    let mod = parseInt(match[3] || "0");
+
+    let rolls = [];
+    let total = 0;
+
+    for (let i = 0; i < count; i++) {
+        let r = Math.floor(Math.random() * sides) + 1;
+        rolls.push(r);
+        total += r;
+    }
+
+    total += mod;
+
+    return { rolls, modifier: mod, total };
+}
+
+// ---------- Dice UI ----------
+function quickRoll(sides) {
+    let r = roll(`1d${sides}`);
+    showDiceResult(`d${sides}`, r);
+}
+
+function rollFormula(formula) {
+    let r = roll(formula);
+    showDiceResult(formula, r);
+}
+
+function rollDice() {
+    let formula = document.getElementById("diceInput").value;
+    let r = roll(formula);
+    showDiceResult(formula, r);
+}
+
+function rollAdvantage() {
+    let r = roll("2d20");
+    let high = Math.max(...r.rolls);
+    document.getElementById("diceOutput").innerText =
+        `Advantage Rolls: ${r.rolls.join(", ")} | Result: ${high}`;
+}
+
+function rollDisadvantage() {
+    let r = roll("2d20");
+    let low = Math.min(...r.rolls);
+    document.getElementById("diceOutput").innerText =
+        `Disadvantage Rolls: ${r.rolls.join(", ")} | Result: ${low}`;
+}
+
+function showDiceResult(label, result) {
+    if (typeof result === "string") {
+        document.getElementById("diceOutput").innerText = result;
+        return;
+    }
+
+    document.getElementById("diceOutput").innerText =
+        `${label} → Rolls: ${result.rolls.join(", ")} | Total: ${result.total}`;
+}
+
+// ---------- CoC Stat Rolling ----------
+function rollStat3d6x5() {
+    return roll("3d6").total * 5;
+}
+
+function rollStat2d6Plus6x5() {
+    return (roll("2d6").total + 6) * 5;
+}
+
+function generateCharacter() {
+
+    let stats = {
+        STR: rollStat3d6x5(),
+        CON: rollStat3d6x5(),
+        DEX: rollStat3d6x5(),
+        APP: rollStat3d6x5(),
+        POW: rollStat3d6x5(),
+        SIZ: rollStat2d6Plus6x5(),
+        INT: rollStat2d6Plus6x5(),
+        EDU: rollStat2d6Plus6x5()
+    };
+
+    let name = document.getElementById("nameInput").value || "Unknown Investigator";
+    let job = document.getElementById("jobInput").value || "Unemployed Horror Witness";
+
+    let hp = Math.floor((stats.CON + stats.SIZ) / 10);
+    let sanity = stats.POW;
+    let luck = rollStat3d6x5();
+
+    document.getElementById("characterOutput").innerHTML = `
+        <b>${name}</b><br>
+        Occupation: ${job}<br>
+        HP: ${hp}<br>
+        SAN: ${sanity}<br>
+        Luck: ${luck}
+    `;
+
+    let statHTML = "";
+    for (let key in stats) {
+        statHTML += `<div class="stat"><b>${key}</b><br>${stats[key]}</div>`;
+    }
+
+    document.getElementById("stats").innerHTML = statHTML;
+}
+
+</script>
+
+</body>
+</html>
