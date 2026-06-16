@@ -18,12 +18,41 @@
 <body class="animate__animated animate__fadeIn">
 
   <header class="animate__animated animate__fadeInDown animate__faster">
-    <div class="logo">P-lingMovies</div>
+
+    <div class="header-left">
+      <button id="menuBtn" class="hamburger">&#9776;</button>
+      <div class="logo">P-lingMovies</div>
+    </div>
+
     <div class="search">
-      <input id="q" type="search" placeholder="Search movies and TV shows (e.g. The Matrix, Breaking Bad)" />
+      <input id="q" type="search" placeholder="Search movies and TV shows..." />
       <button id="searchBtn" class="btn">Search</button>
     </div>
+
   </header>
+
+    <!-- Sidebar -->
+  <div id="sidebar" class="sidebar">
+
+      <h2>Settings</h2>
+
+      <label>TMDb API Key</label>
+      <input
+          type="text"
+          id="apiKeyInput"
+          placeholder="Enter your TMDb API Key">
+
+      <button id="saveApiKey" class="btn">
+          Save API Key
+      </button>
+
+      <button id="clearApiKey" class="btn">
+          Clear API Key
+      </button>
+
+  </div>
+
+  <div id="overlay"></div>
 
   <main class="animate__animated animate__fadeIn animate__delay-1s">
     <div id="resultsInfo" style="margin-bottom:12px;color:var(--muted)"></div>

@@ -288,6 +288,62 @@ select option {
   background: #ff222b;
 }
 
+.header-left{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.hamburger{
+    background:none;
+    border:none;
+    color:white;
+    font-size:28px;
+    cursor:pointer;
+}
+
+.sidebar{
+    position:fixed;
+    left:-920px;
+    top:0;
+    width:300px;
+    height:100%;
+    background:#161616;
+    padding:25px;
+    transition:.3s;
+    z-index:999;
+    box-shadow:2px 0 15px rgba(0,0,0,.5);
+}
+
+.sidebar.open{
+    left:0;
+}
+
+.sidebar h2{
+    margin-bottom:20px;
+}
+
+.sidebar input{
+    width:100%;
+    margin:10px 0;
+    padding:10px;
+    border-radius:5px;
+    border:none;
+    outline:none;
+}
+
+#overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.5);
+    display:none;
+    z-index:998;
+}
+
+#overlay.show{
+    display:block;
+}
+
 /* ------------------------------ */
 /*   FOOTER                      */
 /* ------------------------------ */

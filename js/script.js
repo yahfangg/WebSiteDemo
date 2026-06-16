@@ -1,7 +1,7 @@
 // ------------------------------
 // CONFIG (replace with your own key)
 // ------------------------------
-const TMDB_API_KEY = '';
+let TMDB_API_KEY = localStorage.getItem("TMDB_API_KEY") || "";
 const TMDB_BASE = 'https://api.themoviedb.org/3';
 const IMAGE_BASE = 'https://image.tmdb.org/t/p/w500';
 
@@ -340,3 +340,48 @@ qInput.addEventListener('keydown', (e) => {
       'Welcome — search for a movie or TV show above.';
   }
 })();
+
+
+const menuBtn = document.getElementById("menuBtn");
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay");
+
+const apiKeyInput = document.getElementById("apiKeyInput");
+const saveBtn = document.getElementById("saveApiKey");
+const clearBtn = document.getElementById("clearApiKey");
+
+// Load saved key
+apiKeyInput.value = localStorage.getItem("TMDB_API_KEY") || "";
+
+menuBtn.onclick = () => {
+    sidebar.classList.toggle("open");
+    overlay.classList.toggle("show");
+};
+
+overlay.onclick = () => {
+    sidebar.classList.remove("open");
+    overlay.classList.remove("show");
+};
+
+saveBtn.onclick = () => {
+
+    localStorage.setItem(
+        "TMDB_API_KEY",
+        apiKeyInput.value.trim()
+    );
+
+    alert("API Key Saved!");
+
+    sidebar.classList.remove("open");
+    overlay.classList.remove("show");
+
+    location.reload();
+};
+
+clearBtn.onclick = () => {
+    localStorage.removeItem("TMDB_API_KEY");
+    apiKeyInput.value = "";
+    alert("API Key Cleared!");
+
+    location.reload();
+};
